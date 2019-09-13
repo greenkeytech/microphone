@@ -11,7 +11,7 @@ $ npm install @gkt/microphone
 ## Usage
 
 ```javascript
-import Microphone from 'microphone';
+import Microphone from '@gkt/microphone';
 
 navigator.mediaDevices.getUserMedia({audio: true}).then((stream) => {
   const mic = new Microphone(stream);
