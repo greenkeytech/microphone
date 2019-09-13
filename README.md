@@ -27,3 +27,12 @@ navigator.mediaDevices.getUserMedia({audio: true}).then((stream) => {
 });
 ```
 
+## Publishing
+
+To publish a new version, update the `version` field in the `package.json` file and run:
+
+```
+$ npm publish --access public
+```
+
+This will automatically apply a git tag matching the version and push it.
