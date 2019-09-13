@@ -1,13 +1,15 @@
 {
   "name": "@gkt/microphone",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A JavaScript library for recording audio via the WebAudio API",
   "main": "dist/Microphone.js",
   "unpkg": "dist/Microphone.js",
   "scripts": {
     "test": "jest",
     "build": "webpack --mode production",
-    "version": "node -pe \"require('./package.json').version\""
+    "version": "node -pe \"require('./package.json').version\"",
+    "prepublish": "npm run test && npm run build",
+    "postpublish": "git tag v$(npm --loglevel silent run version) && git push --tags"
   },
   "repository": {
     "type": "git",
@@ -39,7 +41,5 @@
   "bugs": {
     "url": "https://github.com/greenkeytech/microphone/issues"
   },
-  "homepage": "https://github.com/greenkeytech/microphone#readme",
-  "prepublish": "npm run test && npm run build",
-  "postpublish": "git tag v$(npm --loglevel silent run version) && git push --tags"
+  "homepage": "https://github.com/greenkeytech/microphone#readme"
 }
