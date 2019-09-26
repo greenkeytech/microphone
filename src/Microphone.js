@@ -49,8 +49,13 @@ class Microphone {
     this.mono = mono;
     this.streaming = streaming;
 
-    this.context = new audioContext({sampleRate: exportSampleRate});
-    this.source = this.context.createMediaStreamSource(this.stream);
+    try {
+      this.context = new audioContext({sampleRate: exportSampleRate});
+      this.source = this.context.createMediaStreamSource(this.stream);
+    } catch {
+      this.context = new audioContext();
+      this.source = this.context.createMediaStreamSource(this.stream);
+    }
   }
 
   // Start recording audio. This will begin buffering audio data from the
