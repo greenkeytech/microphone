@@ -1,47 +1,47 @@
 import {encodeWAV} from './encoders';
 
 const FILTER = [
-  0.0012104,
-  0.0007687,
-  -0.0002271,
-  -0.0017755,
-  -0.0033313,
-  -0.0036849,
-  -0.0015239,
-  0.0034510,
-  0.0095448,
-  0.0131126,
-  0.0100989,
-  -0.0013584,
-  -0.0185718,
-  -0.0337686,
-  -0.0362837,
-  -0.0170148,
-  0.0267093,
-  0.0882792,
-  0.1527502,
-  0.2016622,
-  0.2199051,
-  0.2016622,
-  0.1527502,
-  0.0882792,
-  0.0267093,
-  -0.0170148,
-  -0.0362837,
-  -0.0337686,
-  -0.0185718,
-  -0.0013584,
-  0.0100989,
-  0.0131126,
-  0.0095448,
-  0.0034510,
-  -0.0015239,
-  -0.0036849,
-  -0.0033313,
-  -0.0017755,
-  -0.0002271,
-  0.0007687,
-  0.0012104
+  0.0006253,
+  -0.0009991,
+  -0.0016085,
+  0.0004661,
+  0.0033264,
+  0.0017113,
+  -0.0047963,
+  -0.0066555,
+  0.0033279,
+  0.0135469,
+  0.0043632,
+  -0.0185222,
+  -0.0201074,
+  0.0147855,
+  0.0424725,
+  0.0070493,
+  -0.0664233,
+  -0.0653794,
+  0.0849329,
+  0.3036509,
+  0.4084668,
+  0.3036509,
+  0.0849329,
+  -0.0653794,
+  -0.0664233,
+  0.0070493,
+  0.0424725,
+  0.0147855,
+  -0.0201074,
+  -0.0185222,
+  0.0043632,
+  0.0135469,
+  0.0033279,
+  -0.0066555,
+  -0.0047963,
+  0.0017113,
+  0.0033264,
+  0.0004661,
+  -0.0016085,
+  -0.0009991,
+  0.0006253
 ];
 
 // A class for recording data from the microphone and exporting it to WAV
@@ -177,7 +177,7 @@ class Microphone {
     // clear the buffers
     if (this.downsample) {
       // if we're downsampling, we need to leave the last chunk of samples so that they can be
-      // used for filtering on the next export
+      // used for filtering on the next export. Output will have clicking sounds without this
       this.c0Bufs = [c0.slice(c0.length - FILTER.length)];
       this.c1Bufs = [c1.slice(c1.length - FILTER.length)];
     } else {
@@ -261,6 +261,8 @@ function lowpassFilter(samples) {
   const length = Math.max(0, samples.length - FILTER.length + 1);
   const buf = new Float32Array(length);
 
+  // convolve the lowpass FIR filter with the signal. We don't reverse the signal because the filter
+  // is symmetric. If the filter becomes non symettric this code will need to be adjusted.
   for (let i = 0; i < length; i++) {
     for (let j = 0; j < FILTER.length; j++) {
       buf[i] += samples[i+j] * FILTER[j];

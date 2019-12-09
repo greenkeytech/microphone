@@ -42,17 +42,17 @@ describe('downsample', () => {
 
     expect(downsample(buf, 44100, 16000)).toEqual({
       rate: 22050,
-      samples: (new Float32Array(30)).fill(0.4999999403953552)
+      samples: (new Float32Array(30)).fill(0.49999991059303284)
     });
 
     expect(downsample(buf, 44100, 8000)).toEqual({
       rate: 8820,
-      samples: (new Float32Array(12)).fill(0.4999999403953552)
+      samples: (new Float32Array(12)).fill(0.49999991059303284)
     });
 
     expect(downsample(buf, 48000, 16000)).toEqual({
       rate: 16000,
-      samples: (new Float32Array(20)).fill(0.4999999403953552)
+      samples: (new Float32Array(20)).fill(0.49999991059303284)
     });
   });
 });
