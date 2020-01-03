@@ -36,32 +36,23 @@ describe('downsample', () => {
     });
   });
 
-  describe('with a desired rate equal to the original rate', () => {
-    it('returns the original samples and rate', () => {
-      const buf = new Float32Array([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]);
-      expect(downsample(buf, 16000, 16000)).toEqual({
-        rate: 16000,
-        samples: buf
-      });
-    });
-  });
-
   it('downsamples the given buffer using the closest whole number downsampling factor to the desired rate', () => {
-    const buf = new Float32Array([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]);
+    const buf = new Float32Array(100).fill(0.5);
+    const samples = new Float32Array(60);
 
     expect(downsample(buf, 44100, 16000)).toEqual({
       rate: 22050,
-      samples: new Float32Array([0,2,4,6,8,10,12,14,16])
+      samples: (new Float32Array(30)).fill(0.49999991059303284)
     });
 
     expect(downsample(buf, 44100, 8000)).toEqual({
       rate: 8820,
-      samples: new Float32Array([0,5,10,15])
+      samples: (new Float32Array(12)).fill(0.49999991059303284)
     });
 
     expect(downsample(buf, 48000, 16000)).toEqual({
       rate: 16000,
-      samples: new Float32Array([0,3,6,9,12,15])
+      samples: (new Float32Array(20)).fill(0.49999991059303284)
     });
   });
 });
